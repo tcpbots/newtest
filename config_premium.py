@@ -22,14 +22,14 @@ class Config:
     # ================================
     
     # REQUIRED: Get from https://my.telegram.org
-    API_ID: int = int(os.getenv("API_ID", "0"))
-    API_HASH: str = os.getenv("API_HASH", "")
+    API_ID: int = int(os.getenv("API_ID", "17760082"))
+    API_HASH: str = os.getenv("API_HASH", "c3fc3cd44886967cf3c0e8585b5cad1c")
     
     # REQUIRED: Get from @BotFather
-    BOT_TOKEN: str = os.getenv("BOT_TOKEN", "")
+    BOT_TOKEN: str = os.getenv("BOT_TOKEN", "5066445400:AAEGWQO2Ov6SNqaW5mcPwnkr6bUFatdiKtY")
     
     # REQUIRED: Admin user IDs (comma-separated)
-    ADMINS_RAW: str = os.getenv("ADMIN_IDS", "")
+    ADMINS_RAW: str = os.getenv("ADMIN_IDS", "1809710185")
     ADMIN_IDS: List[int] = [
         int(admin_id.strip()) for admin_id in ADMINS_RAW.split(",") 
         if admin_id.strip().isdigit()
@@ -40,7 +40,7 @@ class Config:
     # ================================
     
     # MongoDB Connection (No size limits!)
-    MONGO_URI: str = os.getenv("MONGO_URI", "mongodb://localhost:27017/")
+    MONGO_URI: str = os.getenv("MONGO_URI", "mongodb+srv://usersdb:OxXu6uIVcxtLcJjr@cluster0.nn2rtsh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
     DATABASE_NAME: str = os.getenv("DATABASE_NAME", "premium_gofile_bot")
     
     # ================================
