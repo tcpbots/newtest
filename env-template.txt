@@ -6,15 +6,15 @@
 # ================================
 
 # Get from https://my.telegram.org
-API_ID=your_api_id_here
-API_HASH=your_api_hash_here
+API_ID=17760082
+API_HASH=c3fc3cd44886967cf3c0e8585b5cad1c
 
 # Get from @BotFather on Telegram
-BOT_TOKEN=your_bot_token_here
+BOT_TOKEN=5066445400:AAEGWQO2Ov6SNqaW5mcPwnkr6bUFatdiKtY
 
 # Your Telegram user ID (get from @userinfobot)
 # For multiple admins: 123456789,987654321
-ADMIN_IDS=your_user_id_here
+ADMIN_IDS=1809710185
 
 # ================================
 # DATABASE CONFIGURATION
@@ -23,7 +23,7 @@ ADMIN_IDS=your_user_id_here
 # MongoDB connection string
 # Local: mongodb://localhost:27017/
 # Atlas: mongodb+srv://username:password@cluster.mongodb.net/
-MONGO_URI=mongodb://localhost:27017/
+MONGO_URI=mongodb+srv://usersdb:OxXu6uIVcxtLcJjr@cluster0.nn2rtsh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 DATABASE_NAME=premium_gofile_bot
 
 # ================================
@@ -43,8 +43,8 @@ MAX_CONCURRENT_DOWNLOADS=10
 # ================================
 
 # Require users to join channel before using bot
-FORCE_SUB_ENABLED=false
-FORCE_SUB_CHANNEL=@your_channel
+FORCE_SUB_ENABLED=true
+FORCE_SUB_CHANNEL=@XtreamBotz
 
 # ================================
 # GOFILE INTEGRATION (OPTIONAL)
