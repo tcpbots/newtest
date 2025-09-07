@@ -220,7 +220,7 @@ async def run_premium_bot():
             sys.exit(1)
         
         # Import here after dependency check
-        from handlers_premium import PremiumBotHandlers
+        from handlers_premium import EnhancedPremiumHandlers
         
         # Initialize premium bot
         bot = PremiumBotHandlers()
