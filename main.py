@@ -223,7 +223,7 @@ async def run_premium_bot():
         from handlers_premium import EnhancedPremiumHandlers
         
         # Initialize premium bot
-        bot = PremiumBotHandlers()
+        bot = EnhancedPremiumHandlers()
         
         # Start the bot
         logger.info("⚡ Initializing premium components...")
