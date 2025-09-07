@@ -23,7 +23,6 @@ from pyrogram.errors import FloodWait, UserNotParticipant, ChatAdminRequired, Ch
 from config_premium import Config
 from database_premium import PremiumDatabase
 from utils_premium import PremiumUtilities
-from downloader_premium import PremiumMediaDownloader
 
 logger = logging.getLogger(__name__)
 
