@@ -1,25 +1,7 @@
 #!/usr/bin/env python3
 """
-Premium GoFile Bot v3.0 - Main Entry Point
+Premium GoFile Bot v3.0 - Main Entry Point (FIXED)
 Complete rewrite with premium features and no limitations!
-
-Reference architectures:
-- TheHamkerCat/WilliamButcherBot (Advanced Pyrogram patterns)
-- ssebastianoo/yt-dlp-telegram (Media downloading)
-- FayasNoushad/GoFile-Bot (GoFile integration)
-- nonoo/yt-dlp-telegram-bot (Premium features)
-
-FIXES ALL PREVIOUS ISSUES:
-✅ Database conflicts resolved
-✅ Download failures fixed
-✅ Progress tracking working
-✅ Callbacks functional
-✅ GoFile integration perfect
-✅ No artificial limits
-✅ Premium error handling
-
-Author: Premium Bot Development Team
-License: MIT
 """
 
 import asyncio
@@ -32,9 +14,6 @@ from pathlib import Path
 # Add project root to Python path
 project_root = Path(__file__).parent
 sys.path.insert(0, str(project_root))
-
-from config_premium import Config
-from handlers_premium import PremiumBotHandlers
 
 
 def setup_premium_logging():
@@ -134,37 +113,44 @@ def print_premium_banner():
 
 
 def check_dependencies():
-    """Check if all required dependencies are installed"""
+    """Check if all required dependencies are installed - FIXED VERSION"""
     logger = logging.getLogger(__name__)
     
-    required_packages = [
-        'pyrogram',
-        'TgCrypto', 
-        'motor',
-        'yt_dlp',
-        'aiofiles',
-        'aiohttp',
-        'httpx',
-        'orjson',
-        'python-dotenv',
-        'rich',
-        'tqdm'
+    # Fixed: Use correct import names instead of package names
+    required_imports = [
+        ('pyrogram', 'pyrogram'),
+        ('TgCrypto', 'TgCrypto'),
+        ('motor', 'motor'),
+        ('pymongo', 'pymongo'),
+        ('yt_dlp', 'yt-dlp'),
+        ('aiofiles', 'aiofiles'),
+        ('aiohttp', 'aiohttp'),
+        ('httpx', 'httpx'),
+        ('orjson', 'orjson'),
+        ('dotenv', 'python-dotenv'),  # Fixed: import name vs package name
+        ('rich', 'rich'),
+        ('tqdm', 'tqdm'),
+        ('requests', 'requests')
     ]
     
     missing_packages = []
     
-    for package in required_packages:
+    for import_name, package_name in required_imports:
         try:
-            __import__(package.lower().replace('-', '_'))
+            __import__(import_name)
         except ImportError:
-            missing_packages.append(package)
+            missing_packages.append(package_name)
     
     if missing_packages:
         logger.error("❌ Missing required packages:")
         for package in missing_packages:
             logger.error(f"   • {package}")
         logger.error("")
-        logger.error("💡 Install with: pip install -r requirements-premium.txt")
+        logger.error("💡 Quick install:")
+        logger.error(f"   pip install {' '.join(missing_packages)}")
+        logger.error("")
+        logger.error("💡 Or install all requirements:")
+        logger.error("   pip install -r requirements-fixed.txt")
         return False
     
     logger.info("✅ All dependencies are installed")
@@ -176,10 +162,16 @@ def check_environment():
     logger = logging.getLogger(__name__)
     
     try:
+        # Import here to avoid issues if dependencies missing
+        from config_premium import Config
         config = Config()
         config.validate_config()
         logger.info("✅ Configuration is valid")
         return True
+    except ImportError as e:
+        logger.error(f"❌ Import error: {e}")
+        logger.error("💡 Make sure all dependencies are installed")
+        return False
     except ValueError as e:
         logger.error(f"❌ Configuration error: {e}")
         logger.error("")
@@ -232,22 +224,6 @@ DOWNLOAD_DIR=./downloads
 TEMP_DIR=./temp
 COOKIES_DIR=./cookies
 SESSIONS_DIR=./sessions
-
-# Optional: Performance tuning
-CHUNK_SIZE=1048576
-UPLOAD_CHUNK_SIZE=8388608
-REQUEST_TIMEOUT=120
-DOWNLOAD_TIMEOUT=3600
-UPLOAD_TIMEOUT=7200
-MAX_RETRIES=5
-RETRY_DELAY=2
-
-# Optional: yt-dlp configuration
-YTDLP_ENABLED=true
-YTDLP_COOKIES_ENABLED=true
-YTDLP_VIDEO_FORMAT=best[height<=2160]
-YTDLP_AUDIO_FORMAT=best
-YTDLP_EXTRACT_AUDIO=false
 """
     
     env_file = Path('.env.example')
@@ -278,6 +254,9 @@ async def run_premium_bot():
             if create_example_env():
                 logger.info("📝 Created .env.example file")
             sys.exit(1)
+        
+        # Import here after dependency check
+        from handlers_premium import PremiumBotHandlers
         
         # Initialize premium bot
         bot = PremiumBotHandlers()
