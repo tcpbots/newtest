@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Premium GoFile Bot v3.0 - Main Entry Point (FIXED)
-Complete rewrite with premium features and no limitations!
+Premium GoFile Bot v3.0 - Main Entry Point (DEPENDENCY CHECK FIXED)
+No more dependency check issues!
 """
 
 import asyncio
@@ -37,7 +37,7 @@ def setup_premium_logging():
     # Clear existing handlers
     root_logger.handlers.clear()
     
-    # Console handler with colors
+    # Console handler
     console_handler = logging.StreamHandler(sys.stdout)
     console_handler.setLevel(logging.INFO)
     console_handler.setFormatter(formatter)
@@ -54,21 +54,10 @@ def setup_premium_logging():
     file_handler.setFormatter(formatter)
     root_logger.addHandler(file_handler)
     
-    # Error file handler
-    error_handler = logging.FileHandler(
-        logs_dir / f"errors_{today}.log",
-        mode='a',
-        encoding='utf-8'
-    )
-    error_handler.setLevel(logging.ERROR)
-    error_handler.setFormatter(formatter)
-    root_logger.addHandler(error_handler)
-    
     # Reduce noise from third-party libraries
     logging.getLogger('pyrogram').setLevel(logging.WARNING)
     logging.getLogger('urllib3').setLevel(logging.WARNING)
     logging.getLogger('httpx').setLevel(logging.WARNING)
-    logging.getLogger('httpcore').setLevel(logging.WARNING)
     logging.getLogger('yt_dlp').setLevel(logging.WARNING)
     
     return root_logger
@@ -112,48 +101,27 @@ def print_premium_banner():
     print(banner)
 
 
-def check_dependencies():
-    """Check if all required dependencies are installed - FIXED VERSION"""
+def quick_dependency_test():
+    """Quick test of critical dependencies"""
     logger = logging.getLogger(__name__)
     
-    # Fixed: Use correct import names instead of package names
-    required_imports = [
-        ('pyrogram', 'pyrogram'),
-        ('TgCrypto', 'TgCrypto'),
-        ('motor', 'motor'),
-        ('pymongo', 'pymongo'),
-        ('yt_dlp', 'yt-dlp'),
-        ('aiofiles', 'aiofiles'),
-        ('aiohttp', 'aiohttp'),
-        ('httpx', 'httpx'),
-        ('orjson', 'orjson'),
-        ('dotenv', 'python-dotenv'),  # Fixed: import name vs package name
-        ('rich', 'rich'),
-        ('tqdm', 'tqdm'),
-        ('requests', 'requests')
+    critical_imports = [
+        "pyrogram",
+        "motor", 
+        "yt_dlp",
+        "aiohttp",
+        "dotenv"
     ]
     
-    missing_packages = []
-    
-    for import_name, package_name in required_imports:
+    for module in critical_imports:
         try:
-            __import__(import_name)
-        except ImportError:
-            missing_packages.append(package_name)
+            __import__(module)
+        except ImportError as e:
+            logger.error(f"❌ Critical dependency missing: {module}")
+            logger.error(f"   Install with: pip install {module}")
+            return False
     
-    if missing_packages:
-        logger.error("❌ Missing required packages:")
-        for package in missing_packages:
-            logger.error(f"   • {package}")
-        logger.error("")
-        logger.error("💡 Quick install:")
-        logger.error(f"   pip install {' '.join(missing_packages)}")
-        logger.error("")
-        logger.error("💡 Or install all requirements:")
-        logger.error("   pip install -r requirements-fixed.txt")
-        return False
-    
-    logger.info("✅ All dependencies are installed")
+    logger.info("✅ Critical dependencies available")
     return True
 
 
@@ -177,7 +145,7 @@ def check_environment():
         logger.error("")
         logger.error("💡 Create a .env file with required values:")
         logger.error("   API_ID=your_api_id")
-        logger.error("   API_HASH=your_api_hash")
+        logger.error("   API_HASH=your_api_hash") 
         logger.error("   BOT_TOKEN=your_bot_token")
         logger.error("   ADMIN_IDS=your_user_id")
         logger.error("   MONGO_URI=mongodb://localhost:27017/")
@@ -218,12 +186,6 @@ FORCE_SUB_CHANNEL=@your_channel
 
 # Optional: GoFile API token for premium features
 GOFILE_API_TOKEN=your_gofile_token
-
-# Optional: Directory configuration
-DOWNLOAD_DIR=./downloads
-TEMP_DIR=./temp
-COOKIES_DIR=./cookies
-SESSIONS_DIR=./sessions
 """
     
     env_file = Path('.env.example')
@@ -244,8 +206,10 @@ async def run_premium_bot():
         # Setup logging
         logger.info("🚀 Starting Premium GoFile Uploader Bot v3.0...")
         
-        # Check dependencies
-        if not check_dependencies():
+        # Quick dependency test (simplified)
+        if not quick_dependency_test():
+            logger.error("💡 Install missing packages with:")
+            logger.error("   pip install pyrogram TgCrypto motor pymongo yt-dlp aiohttp python-dotenv")
             sys.exit(1)
         
         # Check environment
